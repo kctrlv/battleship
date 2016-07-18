@@ -1,0 +1,15 @@
+Board:
+
+Subclasses: PlayerBoard, EnemyBoard, GlobalBoard
+
+
+
+Player:
+
+Subclasses: HumanPlayer, CPUPlayer
+
+
+
+Ship:
+
+Subclasses: none

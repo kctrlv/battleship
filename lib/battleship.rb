@@ -1,5 +1,5 @@
 require './lib/player'
-require './lib/board'
+require './lib/grid'
 require './lib/game'
 require './lib/ship'
 

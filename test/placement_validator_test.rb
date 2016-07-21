@@ -18,7 +18,7 @@ class PlacementValidatorTest < Minitest::Test
     s = Ship.new(2)
     p = PlacementValidator.new(g, s, "A1", "A2")
     assert_equal 2, p.lookup("A3")
-    assert_equal 'w', p.lookup("A4")
+    assert_equal ' ', p.lookup("A4")
     assert_equal nil, p.lookup("A5")
   end
 
@@ -121,8 +121,4 @@ class PlacementValidatorTest < Minitest::Test
     refute PlacementValidator.new(Grid.new, Ship.new(2), "B1", "B5").valid?
     refute PlacementValidator.new(Grid.new, Ship.new(3), "D3", "D6").valid?
   end
-
-
-
-
 end

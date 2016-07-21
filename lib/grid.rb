@@ -10,7 +10,7 @@ class Grid
   end
 
   def make_grid(sides)
-    Array.new(sides){Array.new(sides,'w')}
+    Array.new(sides){Array.new(sides,' ')}
     # array = [['w'] * sides] * sides
     # [['w','w','w','w'], ['w','w','w','w'],['w','w','w','w'],['w','w','w','w']]
   end
@@ -48,7 +48,14 @@ class Grid
   def place_ship(ship, c1, c2)
     coords = actual_coords(c1, c2)
     coords.each{ |coord| assign(coord, ship.size)}
+    true
   end
+
+  def scan(target)
+    grid.flatten.include?(target)
+  end
+
+
 
 
 
@@ -67,4 +74,6 @@ class Grid
     end
     puts "==" + ("=" * size * 2) + "\n"
   end
+
+
 end

@@ -10,22 +10,22 @@ class GridTest < Minitest::Test
 
   def test_it_starts_with_4x4_grid_by_default
     g = Grid.new
-    assert_equal [['w']*4]*4, g.grid
+    assert_equal [[' ']*4]*4, g.grid
     assert_equal 4, g.size
   end
 
   def test_it_can_start_with_8x8_grid
     g = Grid.new(8)
-    assert_equal [['w']*8]*8, g.grid
+    assert_equal [[' ']*8]*8, g.grid
     assert_equal 8, g.size
   end
 
   def test_it_can_assign_and_lookup_values
     g = Grid.new
-    assert_equal 'w', g.lookup("A1")
+    assert_equal ' ', g.lookup("A1")
     g.assign("A1", 2)
     assert_equal 2, g.lookup("A1")
-    assert_equal 'w', g.lookup("B1")
+    assert_equal ' ', g.lookup("B1")
   end
 
   # def test_it_can_render_grid

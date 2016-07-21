@@ -1,3 +1,5 @@
+require './lib/message'
+
 class PlacementValidator
   attr_reader :grid, :ship, :c1, :c2
 
@@ -39,11 +41,11 @@ class PlacementValidator
   end
 
   def coords_unoccupied?
-    actual_coords.all?{ |coord| lookup(coord)=='w' }
+    actual_coords.all?{ |coord| lookup(coord)==' ' }
   end
 
   def coords_in_range?
-    actual_coords.all?{ |coord| !!lookup(coord)}
+    actual_coords.all?{ |coord| !!lookup(coord) }
   end
 
 
@@ -55,13 +57,17 @@ class PlacementValidator
   end
 
   def explain_why_invalid
-    messages = []
-    messages << "not straight" if !coords_straight?
-    messages << "wrong length" if !coords_match_length? && coords_straight?
-    messages << "spot occupied" if actual_coords && coords_in_range? && !coords_unoccupied?
-    messages << "falls off map" if actual_coords && !coords_in_range?
-    messages.each { |message| puts message}
+    errors = []
+    errors << Message.invalid_placement
+    errors << Message.not_straight if !coords_straight?
+    errors << Message.not_match_length if !coords_match_length? && coords_straight?
+    errors << Message.not_unoccupied if actual_coords && coords_in_range? && !coords_unoccupied?
+    errors << Message.not_in_range if actual_coords && !coords_in_range?
+    errors << Message.please_try_again
+    errors
   end
+
+
 
 
 end

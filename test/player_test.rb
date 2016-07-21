@@ -17,26 +17,24 @@ class PlayerTest < Minitest::Test
     assert Player.new.ships.all?{|item| item.class == Ship}
   end
 
-  def test_player_gets_correct_invalid_message_when_placing_ship_wrongly
-    p = Player.new
-    ship = p.ships[0]
-    invalid_msgs = p.place_ship(ship, "A1", "A3")
-    assert_equal "wrong length", invalid_msgs[0]
-    invalid_msgs = p.place_ship(ship, "A1", "B2")
-    assert_equal "not straight", invalid_msgs[0]
-    invalid_msgs = p.place_ship(ship, "A5", "A6")
-    assert_equal "falls off map", invalid_msgs[0]
-    p.personal_grid.assign("A1", 2)
-    invalid_msgs = p.place_ship(ship, "A1", "A2")
-    assert_equal "spot occupied", invalid_msgs[0]
-  end
-
   def test_it_can_place_a_ship_on_its_grid
     p = Player.new
     ship_to_place = p.ships[0]
     assert p.place_ship(ship_to_place, "A1", "B1")
-    invalid_msgs = p.place_ship(ship_to_place, "A1", "B1")
-    assert_equal "spot occupied", invalid_msgs[0]
-
   end
+
+  def test_one_player_can_hit_another_player
+    player1 = Player.new
+    player2 = Player.new
+    player1.place_ship(player1.ships[0], "A1", "A2")
+    player1.place_ship(player1.ships[1], "B1", "B3")
+    player2.place_ship(player2.ships[0], "A3", "B3")
+    player2.place_ship(player2.ships[1], "A4", "C4")
+    refute player1.fire_upon(player2, "A2")
+    assert player1.fire_upon(player2, "A3")
+    assert player2.fire_upon(player1, "A1")
+    refute player2.fire_upon(player1, "A4")
+  end
+
+
 end

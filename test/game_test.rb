@@ -13,4 +13,6 @@ class GameTest < Minitest::Test
     assert_equal 4, g.size
     assert_equal [2,3], g.ships
   end
+
+  
 end

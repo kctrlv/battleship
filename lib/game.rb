@@ -20,4 +20,6 @@ class Game
     @player_2 = Player.new(size, ships)
   end
 
+  
+
 end

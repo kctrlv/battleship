@@ -10,11 +10,11 @@ class PlacementValidator
     @c2 = end_coord
   end
 
-  def get_actual_coords #helper
-    if c1[0]==c2[0]
+  def find_actual_coords # helper
+    if c1[0] == c2[0]
       Array(c1..c2)
     else
-      Array(c1.reverse..c2.reverse).map{ |c| c.reverse }
+      Array(c1.reverse..c2.reverse).map(&:reverse)
     end
   end
 
@@ -29,7 +29,7 @@ class PlacementValidator
   end
 
   def coords_straight?
-    c1.chars.zip(c2.chars).any?{ |z| z[0]==z[1] }
+    c1.chars.zip(c2.chars).any? { |z| z[0] == z[1] }
   end
 
   def coords_match_length?
@@ -37,37 +37,32 @@ class PlacementValidator
   end
 
   def actual_coords
-    get_actual_coords if coords_straight? && coords_match_length?
+    find_actual_coords if coords_straight? && coords_match_length?
   end
 
   def coords_unoccupied?
-    actual_coords.all?{ |coord| lookup(coord)==' ' }
+    actual_coords.all? { |coord| lookup(coord) == ' ' }
   end
 
   def coords_in_range?
-    actual_coords.all?{ |coord| !!lookup(coord) }
+    actual_coords.all? { |coord| !!lookup(coord) }
   end
 
-
   def valid?
-    coords_straight?      &&
-    coords_match_length?  &&
-    coords_unoccupied?    &&
-    coords_in_range?
+    coords_straight?        &&
+      coords_match_length?  &&
+      coords_unoccupied?    &&
+      coords_in_range?
   end
 
   def explain_why_invalid
     errors = []
     errors << Message.invalid_placement
-    errors << Message.not_straight if !coords_straight?
+    errors << Message.not_straight unless coords_straight?
     errors << Message.not_match_length if !coords_match_length? && coords_straight?
     errors << Message.not_unoccupied if actual_coords && coords_in_range? && !coords_unoccupied?
     errors << Message.not_in_range if actual_coords && !coords_in_range?
     errors << Message.please_try_again
     errors
   end
-
-
-
-
 end

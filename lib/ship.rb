@@ -6,6 +6,6 @@ class Ship
   end
 
   def self.make_ships(ships)
-    ships.map{|ship| self.new(ship)}
+    ships.map { |ship| new(ship) }
   end
 end

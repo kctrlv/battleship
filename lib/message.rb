@@ -16,7 +16,8 @@ module Message
   end
 
   def self.instructions
-    "Try to sink your enemy's ships before they sink yours.\nIt's easy to learn as you go along.\n\n"
+    "Try to sink your enemy's ships before they sink yours.\n
+    It's easy to learn as you go along.\n\n"
   end
 
   def self.cpu_placed_laid_out
@@ -24,8 +25,7 @@ module Message
   end
 
   def self.num_to_word(num)
-    ['zero','one','two','three','four'][num]
-
+    %w(zero one two three four)[num]
   end
 
   def self.cpu_placed_now_you(num_ships)
@@ -41,8 +41,8 @@ module Message
   end
 
   def self.cpu_placed_the_grid(size)
-    row = Array("A".."Z")[size-1]
-    "The grid has A1 at the top left and #{row+size.to_s} at the bottom right.\n\n"
+    coord = Array('A'..'Z')[size - 1] + size.to_s
+    "The grid has A1 at the top left and #{coord} at the bottom right.\n\n"
   end
 
   def self.prompt_placement(ship)
@@ -74,7 +74,7 @@ module Message
   end
 
   def self.internal_trigger_endgame
-    "TRIGGER_END"
+    'TRIGGER_END'
   end
 
   def self.enter
@@ -98,10 +98,8 @@ module Message
   end
 
   def self.time(duration)
-    "The game lasted for #{duration} seconds"
+    "The game lasted for #{duration} seconds\n"
   end
-
-
 
   def self.invalid_placement
     "Invalid Placement: \n"
@@ -128,7 +126,12 @@ module Message
   end
 
   def self.cpu_placed_ships
-    "I have laid out my ships on the grid.\nYou now need to layout your two ships.\nThe first is two units long and the\nsecond is three units long.\nThe grid has A1 at the top left and D4 at the bottom right.\n\nEnter the squares for the two-unit ship: "
+    "I have laid out my ships on the grid.\n
+    You now need to layout your two ships.\n
+    The first is two units long and the\n
+    second is three units long.\n
+    The grid has A1 at the top left and D4 at the bottom right.\n\n
+    Enter the squares for the two-unit ship: "
   end
 
   def self.missed
@@ -140,7 +143,7 @@ module Message
   end
 
   def self.already_missed
-    "You already missed this spot before, I won't let you waste a turn comrade!\n"
+    "You missed this spot already, I won't let you waste a turn comrade!\n"
   end
 
   def self.hit!
@@ -148,7 +151,7 @@ module Message
   end
 
   def self.sunk(target)
-    "YES! You sunk their #{self.ship_name(target)}! It was a size #{target} ship!"
+    "You sunk their #{ship_name(target)}! It was a size #{target} ship\n"
   end
 
   def self.already_hit
@@ -158,13 +161,13 @@ module Message
   def self.ship_name(target)
     case target
     when 2
-      "Cruiser"
+      'Cruiser'
     when 3
-      "Submarine"
+      'Submarine'
     when 4
-      "Battleship"
+      'Battleship'
     when 5
-      "Carrier"
+      'Carrier'
     end
   end
 end

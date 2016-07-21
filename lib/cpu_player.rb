@@ -1,19 +1,16 @@
 require './lib/player'
 
-class CPU_Player < Player
-
-
+class CPUPlayer < Player
   def place_ships
-    ships.each{ |ship| cpu_place_ship(ship) }
+    ships.each { |ship| cpu_place_ship(ship) }
   end
 
   def determine_placement_coords(ship, horizontal)
     x1 = x2 = Array(0..grid_size - ship.size).sample
     y1 = Array(0..grid_size - ship.size).sample
     y2 = y1 + ship.size - 1
-    x1, y1 = y1, x1 if !horizontal
-    x2, y2 = y2, x2 if !horizontal
-    # puts x1, y1, x2, y2
+    x1, y1 = y1, x1 unless horizontal
+    x2, y2 = y2, x2 unless horizontal
     c1 = @personal_grid.translate_2d_index_to_coord([x1, y1])
     c2 = @personal_grid.translate_2d_index_to_coord([x2, y2])
     [c1, c2]
@@ -28,38 +25,20 @@ class CPU_Player < Player
 
   def cpu_place_ship(ship)
     result = attempt_placement(ship)
-    if result.class == Array
-      cpu_place_ship(ship)
-    end
+    cpu_place_ship(ship) if result.class == Array
   end
 
-  def get_random_coord
-    Array("A".."Z")[Array(0...grid_size).sample]+Array(1..grid_size).sample.to_s
+  def random_coord
+    row = Array('A'..'Z')[Array(0...grid_size).sample]
+    col = Array(1..grid_size).sample.to_s
+    row + col
   end
 
   def cpu_fire(opponent)
-    coord = get_random_coord
+    coord = random_coord
     puts "Firing at #{coord}"
     result = fire_upon(opponent, coord)
-    until [Message.hit!, Message.missed].include?(result)
-      cpu_fire(opponent)
-    end
-
+    cpu_fire(opponent) until [Message.hit!, Message.missed].include?(result)
     result
   end
 end
-#
-#
-# $player1 = Player.new
-# $player2 = CPU_Player.new
-#
-# $player1.place_ship($player1.ships[0], "A1", "A2")
-# $player1.place_ship($player1.ships[1], "B1", "B3")
-#
-# $player1.show_personal_grid
-#
-# $player2.show_personal_grid
-#
-# $player2.place_ships
-#
-# $player2.show_personal_grid

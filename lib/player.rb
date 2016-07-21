@@ -7,7 +7,7 @@ class Player
   attr_reader :personal_grid, :opponent_grid, :ships,
               :ship_types,    :grid_size,     :shots
 
-  def initialize(size=4, ships=[2,3]) #int, array
+  def initialize(size = 4, ships = [2, 3])
     @grid_size = size
     @ship_types = ships
     @ships = Ship.make_ships(ships)
@@ -25,11 +25,11 @@ class Player
   end
 
   def place_ship(ship, coord_1, coord_2)
-    validator = PlacementValidator.new(grid=@personal_grid, ship, coord_1, coord_2)
-    if validator.valid?
+    v = PlacementValidator.new(@personal_grid, ship, coord_1, coord_2)
+    if v.valid?
       @personal_grid.place_ship(ship, coord_1, coord_2)
     else
-      validator.explain_why_invalid
+      v.explain_why_invalid
     end
   end
 
@@ -59,9 +59,9 @@ class Player
   end
 
   def target_hit(opponent, coord, target)
-    opponent_grid.assign(coord, "H")
+    opponent_grid.assign(coord, 'H')
     inc_shots
-    feedback = opponent.got_hit(coord, target) #return hit or sunk
+    feedback = opponent.got_hit(coord, target) # return hit or sunk
     # puts feedback
     if feedback == 'hit'
       Message.hit!
@@ -76,7 +76,7 @@ class Player
   end
 
   def inc_shots
-    @shots = @shots + 1
+    @shots += 1
   end
 
   def still_alive(target)
@@ -84,17 +84,17 @@ class Player
   end
 
   def got_hit(coord, target)
-    personal_grid.assign(coord, "H")
+    personal_grid.assign(coord, 'H')
     if still_alive(target)
       'hit'
     elsif !ships_remain?
-      "lost"
+      'lost'
     else
       'sunk'
     end
   end
 
   def ships_remain?
-    ship_types.any?{ |ship| personal_grid.scan(ship)}
+    ship_types.any? { |ship| personal_grid.scan(ship) }
   end
 end

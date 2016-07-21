@@ -4,7 +4,8 @@ require './lib/placement_validator'
 require './lib/message'
 
 class Player
-  attr_reader :personal_grid, :opponent_grid, :ships, :ship_types, :grid_size
+  attr_reader :personal_grid, :opponent_grid, :ships,
+              :ship_types,    :grid_size,     :shots
 
   def initialize(size=4, ships=[2,3]) #int, array
     @grid_size = size
@@ -12,6 +13,7 @@ class Player
     @ships = Ship.make_ships(ships)
     @personal_grid = Grid.new(size)
     @opponent_grid = Grid.new(size)
+    @shots = 0
   end
 
   def show_personal_grid
@@ -40,34 +42,41 @@ class Player
     if target == ' '
       target_miss(coord)
     elsif target == 'M'
-      puts Message.already_missed
+      Message.already_missed
     elsif target == 'H'
-      puts Message.already_hit
+      Message.already_hit
     elsif target
       target_hit(opponent, coord, target)
     else
-      puts Message.invalid_coordinate
+      Message.invalid_coordinate
     end
   end
 
   def target_miss(coord)
-    puts Message.missed
     opponent_grid.assign(coord, 'M')
-    false
+    inc_shots
+    Message.missed
   end
 
   def target_hit(opponent, coord, target)
-    puts 'HIT!'
     opponent_grid.assign(coord, "H")
-    #return true
+    inc_shots
     feedback = opponent.got_hit(coord, target) #return hit or sunk
-    puts feedback
+    # puts feedback
     if feedback == 'hit'
-      puts Message.hit!
+      Message.hit!
     elsif feedback == 'sunk'
       puts Message.sunk(target)
+      Message.hit!
+    elsif feedback == 'lost'
+      puts Message.hit!
+      puts Message.sunk(target)
+      Message.internal_trigger_endgame
     end
-    return true
+  end
+
+  def inc_shots
+    @shots = @shots + 1
   end
 
   def still_alive(target)

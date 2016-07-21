@@ -1,7 +1,112 @@
 module Message
+  def self.welcome
+    "Welcome to BATTLESHIP\n"
+  end
+
+  def self.start
+    "Would you like to (p)lay, read the (i)nstructions, or (q)uit?\n> "
+  end
+
+  def self.quitter
+    "kthxbye\n"
+  end
+
+  def self.qip
+    "I only understand three letters right now...\n\n"
+  end
+
+  def self.instructions
+    "Try to sink your enemy's ships before they sink yours.\nIt's easy to learn as you go along.\n\n"
+  end
+
+  def self.cpu_placed_laid_out
+    "I have laid out my ships on the grid.\n"
+  end
+
+  def self.num_to_word(num)
+    ['zero','one','two','three','four'][num]
+
+  end
+
+  def self.cpu_placed_now_you(num_ships)
+    "You now need to layout your #{num_to_word(num_ships)} ships.\n"
+  end
+
+  def self.cpu_placed_your_first(size)
+    "The first is #{num_to_word(size)} units long and the\n"
+  end
+
+  def self.cpu_placed_your_second(size)
+    "second is #{num_to_word(size)} units long.\n"
+  end
+
+  def self.cpu_placed_the_grid(size)
+    row = Array("A".."Z")[size-1]
+    "The grid has A1 at the top left and #{row+size.to_s} at the bottom right.\n\n"
+  end
+
+  def self.prompt_placement(ship)
+    "Enter the coordinates for the #{num_to_word(ship)}-unit ship: \n> "
+  end
+
+  def self.coord_instructions
+    "Try again. Enter two coordinates seperated by a space.\n"
+  end
+
+  def self.nice_job_placing
+    "Good work, that ship is officially placed.\n"
+  end
+
+  def self.heres_your_grid
+    "Check it out, this is your grid: \n\n"
+  end
+
+  def self.heres_their_grid
+    "Here's what you know about their grid.\n"
+  end
+
+  def self.fire_away
+    "Take aim, and fire!\n> "
+  end
+
+  def self.no_such_coordinate
+    "That ain't no coordinate I ever heard of.\n"
+  end
+
+  def self.internal_trigger_endgame
+    "TRIGGER_END"
+  end
+
+  def self.enter
+    "Press enter to continue.\n"
+  end
+
+  def self.you_lose
+    "Sorry! You lost.\n"
+  end
+
+  def self.you_win
+    "Congratulations! You win!\n"
+  end
+
+  def self.player_shots(shots)
+    "It took you #{shots} shots\n"
+  end
+
+  def self.computer_shots(shots)
+    "It took the computer #{shots} shots\n"
+  end
+
+  def self.time(duration)
+    "The game lasted for #{duration} seconds"
+  end
+
+
+
   def self.invalid_placement
     "Invalid Placement: \n"
   end
+
   def self.not_straight
     "Your coordinates are not in a horizontal or vertical placement.\n"
   end
@@ -27,7 +132,7 @@ module Message
   end
 
   def self.missed
-    "Splash! You missed!\n"
+    "Splash! Missed!\n"
   end
 
   def self.invalid_coordinate
@@ -39,7 +144,7 @@ module Message
   end
 
   def self.hit!
-    "It's a HIT! Keep up the pressure!\n"
+    "Hit!\n"
   end
 
   def self.sunk(target)

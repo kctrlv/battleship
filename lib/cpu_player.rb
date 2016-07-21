@@ -32,6 +32,21 @@ class CPU_Player < Player
       cpu_place_ship(ship)
     end
   end
+
+  def get_random_coord
+    Array("A".."Z")[Array(0...grid_size).sample]+Array(1..grid_size).sample.to_s
+  end
+
+  def cpu_fire(opponent)
+    coord = get_random_coord
+    puts "Firing at #{coord}"
+    result = fire_upon(opponent, coord)
+    until [Message.hit!, Message.missed].include?(result)
+      cpu_fire(opponent)
+    end
+
+    result
+  end
 end
 #
 #

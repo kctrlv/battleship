@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/player'
+require './lib/message'
 
 class PlayerTest < Minitest::Test
   def test_it_exists
@@ -30,10 +31,10 @@ class PlayerTest < Minitest::Test
     player1.place_ship(player1.ships[1], "B1", "B3")
     player2.place_ship(player2.ships[0], "A3", "B3")
     player2.place_ship(player2.ships[1], "A4", "C4")
-    refute player1.fire_upon(player2, "A2")
+    assert_equal Message.missed, player1.fire_upon(player2, "A2")
     assert player1.fire_upon(player2, "A3")
     assert player2.fire_upon(player1, "A1")
-    refute player2.fire_upon(player1, "A4")
+    assert_equal Message.missed, player2.fire_upon(player1, "A4")
   end
 
 
